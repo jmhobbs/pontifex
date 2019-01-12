@@ -25,7 +25,7 @@ The basic usage is to create a deck, likely keyed by a passphrase. Then, encrypt
       ciphertext, _ := deck.Encrypt("SOLITAIRE")
       fmt.Println(ciphertext)
 
-      plaintext, _ := deck.Decrypr(ciphertext)
+      plaintext, _ := deck.Decrypt(ciphertext)
       fmt.Println(plaintext)
     }
 
