@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jmhobbs/pontifex.svg?branch=master)](https://travis-ci.org/jmhobbs/pontifex) [![GoDoc](https://godoc.org/github.com/jmhobbs/pontifex?status.svg)](https://godoc.org/github.com/jmhobbs/pontifex)
+[![Build Status](https://travis-ci.org/jmhobbs/pontifex.svg?branch=master)](https://travis-ci.org/jmhobbs/pontifex) [![codecov](https://codecov.io/gh/jmhobbs/pontifex/branch/master/graph/badge.svg)](https://codecov.io/gh/jmhobbs/pontifex) [![GoDoc](https://godoc.org/github.com/jmhobbs/pontifex?status.svg)](https://godoc.org/github.com/jmhobbs/pontifex)
 
 # Solitaire / Pontifex
 
