@@ -10,12 +10,25 @@ import (
 )
 
 func TestFindCard(t *testing.T) {
-	deck := NewDeck()
-	t.Log(deck)
-	i := deck.findCard(JokerA)
-	if i != 52 {
-		t.Errorf("Did not find card. Expected %d, got %d", 52, i)
-	}
+	t.Run("Normal Find", func(t *testing.T) {
+		deck := NewDeck()
+		t.Log(deck)
+		i := deck.findCard(JokerA)
+		if i != 52 {
+			t.Errorf("Did not find card. Expected %d, got %d", 52, i)
+		}
+	})
+
+	t.Run("Panic", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Errorf("findCard did not panic as expected")
+			}
+		}()
+
+		deck := NewDeck()
+		deck.findCard(Card(100))
+	})
 }
 
 type order struct {
@@ -147,6 +160,29 @@ func TestSampleKeyGeneration(t *testing.T) {
 	}
 }
 
+func TestNewDeckForPassphrase(t *testing.T) {
+	t.Run("Invalid Passphrase", func(t *testing.T) {
+		_, err := NewDeckForPassphrase("i am not a valid passphrase!")
+		if err == nil {
+			t.Error("Expected error for invalid passphrase. None returned.")
+		}
+	})
+
+	t.Run("Sample", func(t *testing.T) {
+		deck, err := NewDeckForPassphrase("FOO")
+		if err != nil {
+			t.Fatalf("Error in deck generation: %s", err)
+		}
+		expectedKeys := []Card{8, 19, 7, 25, 20, 9, 8, 22, 32, 43, 5, 26, 17, 38, 48}
+		for i, expect := range expectedKeys {
+			key := deck.NextKey()
+			if key != expect {
+				t.Errorf("Key at step %d incorrect. Expected %d, got %d", i, expect, key)
+			}
+		}
+	})
+}
+
 func TestSampleEncryption(t *testing.T) {
 	// Samples from https://www.schneier.com/academic/solitaire/
 	t.Run("Ordered Deck", func(t *testing.T) {
@@ -194,6 +230,14 @@ func TestSampleEncryption(t *testing.T) {
 		}
 		if out != ciphertext {
 			t.Errorf("Ciphertext did not match expected: %q != %q", out, ciphertext)
+		}
+	})
+
+	t.Run("Invalid Input", func(t *testing.T) {
+		deck := NewDeck()
+		_, err := deck.Encrypt("this is not valid input!")
+		if err == nil {
+			t.Error("Expected error for invalid input. None returned.")
 		}
 	})
 }
@@ -245,6 +289,14 @@ func TestSampleDecryption(t *testing.T) {
 		}
 		if out != plaintext {
 			t.Errorf("Plaintext did not match expected: %q != %q", out, plaintext)
+		}
+	})
+
+	t.Run("Invalid Input", func(t *testing.T) {
+		deck := NewDeck()
+		_, err := deck.Decrypt("this is not valid input!")
+		if err == nil {
+			t.Error("Expected error for invalid input. None returned.")
 		}
 	})
 }

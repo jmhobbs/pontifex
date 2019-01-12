@@ -40,9 +40,7 @@ func (c Card) String() string {
 		return " Ja"
 	case c == JokerB:
 		return " Jb"
-	case c == 0 || c >= 53:
-		return "???"
-	case c <= 13:
+	case c > 0 && c <= 13:
 		return fmt.Sprintf("%s♣", faceForCard(c))
 	case c <= 26:
 		return fmt.Sprintf("%s♦", faceForCard(c))
@@ -51,7 +49,7 @@ func (c Card) String() string {
 	case c <= 52:
 		return fmt.Sprintf("%s♠", faceForCard(c))
 	}
-	return "?"
+	return "???"
 }
 
 func faceForCard(c Card) string {

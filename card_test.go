@@ -41,11 +41,53 @@ func TestCardString(t *testing.T) {
 			JokerB,
 			" Jb",
 		},
+		{
+			Card(70),
+			"???",
+		},
 	}
 
 	for _, test := range tests {
 		if test.card.String() != test.expect {
 			t.Errorf("Error converting card to string. Expected %s, got %s for %d", test.expect, test.card, test.card)
+		}
+	}
+}
+
+func TestCardValue(t *testing.T) {
+	tests := []struct {
+		card   Card
+		expect int
+	}{
+		{
+			Card(1),
+			1,
+		},
+		{
+			Card(26),
+			26,
+		},
+		{
+			Card(27),
+			1,
+		},
+		{
+			Card(52),
+			26,
+		},
+		{
+			JokerA,
+			53,
+		},
+		{
+			JokerB,
+			53,
+		},
+	}
+
+	for _, test := range tests {
+		if test.card.Value() != test.expect {
+			t.Errorf("Error converting card to string. Expected %d, got %d for %d", test.expect, test.card.Value(), test.card)
 		}
 	}
 }
