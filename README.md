@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jmhobbs/pontifex.svg?branch=master)](https://travis-ci.org/jmhobbs/pontifex) [![GoDoc](https://godoc.org/github.com/jmhobbs/pontifex?status.svg)](https://godoc.org/github.com/jmhobbs/pontifex)
+
 # Solitaire / Pontifex
 
 This is itended as a "clean-room" implementation of the Solitaire algorithm created by Bruce Schneier and used in the novel Cryptonomicon.

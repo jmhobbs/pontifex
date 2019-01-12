@@ -2,6 +2,8 @@ package pontifex
 
 import (
 	"math/rand"
+	"os"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -247,14 +249,21 @@ func TestSampleDecryption(t *testing.T) {
 	})
 }
 
+// Fuzzily test things, different every run unless you set the rand seed to debug errors
 func TestFuzzy(t *testing.T) {
-	// Fuzzily test things, different every run unless you set the rand seed to debug errors
+	// Allow iteration override. When race testing in CI these get slow.
+	iterations := 1000
+	iters := os.Getenv("PONTIFEX_FUZZ_ITERATIONS")
+	if iters != "" {
+		iterations, _ = strconv.Atoi(iters)
+	}
+
 	var seed int64 = time.Now().UnixNano()
 	// Uncomment below and set to a fixed int64 for reproducing tests.
 	// seed = 1547273616491450000
 	t.Logf("Random Test Seed: %v", seed)
 	r := rand.New(rand.NewSource(seed))
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < iterations; i++ {
 		passphrase := randomLengthString(r)
 		plaintext := randomLengthString(r)
 
